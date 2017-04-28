@@ -8,24 +8,27 @@ public class SingleBitConversion {
 
 	public String add(String a, String b) {
 		int count = 0;
-		boolean extraBit = false;
+		int res = 0;
 		StringBuilder result = new StringBuilder(Math.max(a.length(), b.length()) + 1);
 
 		while (count < a.length() || count < b.length()) {
+			
 			int aIndex = a.length() - count - 1;
 			int bIndex = b.length() - count - 1;
 
-			int i1 = (aIndex < 0) ? 0:(a.charAt(aIndex) - '0');
-			int i2 = (bIndex < 0) ? 0:(b.charAt(bIndex) - '0');
-			int res = i1 + i2 + (extraBit ? 1 : 0);
-
-			extraBit = (res >> 1) == 1;
-			int bit = res & 1;
-			result.append(bit == 1 ? '1' : '0');
+			if(aIndex >= 0){
+				res += a.charAt(aIndex) - '0';
+			}
+			
+			if(bIndex >= 0){
+				res += b.charAt(bIndex) - '0';
+			}
+			result.append(res & 1);
+			res = res >>> 1;
 			count++;
 
 		}
-		if (extraBit)
+		if (res == 1)
 			result.append('1');
 
 		return result.reverse().toString();
